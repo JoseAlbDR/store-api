@@ -1,12 +1,9 @@
-const mongoose = require('mongoose')
+import "dotenv/config";
+import mongoose from "mongoose";
 
-const connectDB = (url) => {
-  return mongoose.connect(url, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-}
+const dbConnect = async () => {
+  const connectionString = process.env.DATABASE_URL;
+  return mongoose.connect(connectionString);
+};
 
-module.exports = connectDB
+export default dbConnect;
