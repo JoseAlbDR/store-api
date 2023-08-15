@@ -4,6 +4,10 @@ import dbConnect from "./db/connect";
 const app = express();
 const port = +process.env.PORT || 3000;
 
+app.get("/", (_req, res) => {
+  res.send("Welcome to hell");
+});
+
 const start = async () => {
   try {
     await dbConnect();
