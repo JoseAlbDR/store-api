@@ -4,11 +4,21 @@ import { Product } from "../models/product";
 import { IProduct } from "../types/interfaces";
 
 const getAllProductsStatic = async (_req: Request, res: Response) => {
-  const products: IProduct[] = await Product.find();
+  const search = "y";
+  const products: IProduct[] = await Product.find({
+    name: { $regex: search, $options: "i" },
+  });
   res.status(200).json({ nbHits: products.length, products });
 };
 
 const getAllProducts = async (req: Request, res: Response) => {
+  if (req.productQuery.name) {
+    req.productQuery.name = {
+      $regex: req.productQuery.name as string,
+      $options: "i",
+    };
+  }
+
   const products = await Product.find(req.productQuery);
   return res.status(200).json({ nbHits: products.length, products });
 };
