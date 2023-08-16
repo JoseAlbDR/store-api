@@ -10,6 +10,8 @@ const start = async () => {
     console.log("Success!!!");
   } catch (error) {
     console.log(error);
+  } finally {
+    process.exit(0);
   }
 };
 
