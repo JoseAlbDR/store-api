@@ -1,9 +1,11 @@
+import { IProductQuery } from "./interfaces";
+
 export {};
 
 declare global {
   namespace Express {
     interface Request {
-      // user: string;
+      productQuery: IProductQuery;
     }
   }
   namespace NodeJS {
