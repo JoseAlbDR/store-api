@@ -1,5 +1,6 @@
 import express from "express";
 import dbConnect from "./db/connect";
+import "express-async-errors";
 import notFoundMiddleware from "./middleware/not-found";
 import errorMiddleware from "./middleware/error-handler";
 import productsRouter from "./routes/products";
