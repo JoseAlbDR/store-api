@@ -1,10 +1,12 @@
 export type ICompany = "marcos" | "liddy" | "ikea" | "caressa";
 
 export interface IProduct {
-  rating: number;
-  createdAt: Date;
+  rating?: number;
+  createdAt?: Date;
   name: string;
   price: number;
   company: ICompany;
-  featured: boolean;
+  featured?: boolean;
 }
+
+export type NoDateIProduct = Omit<IProduct, "createdAt">;
