@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { IProduct } from "../types/interfaces";
+import { IProduct, IProductQuery } from "../types/interfaces";
 
 // export const validateCompany = (company: unknown) => {
 //   const companySchema = Joi.string<ICompany>().valid(
@@ -24,6 +24,23 @@ export const validateProductData = (product: unknown) => {
   });
 
   return productSchema.validate(product, {
+    errors: { wrap: { label: false } },
+  });
+};
+
+export const validateProductQuery = (query: unknown) => {
+  const querySchema = Joi.object<IProductQuery>({
+    name: Joi.string().label("Name"),
+    price: Joi.number().min(0).label("Price"),
+    featured: Joi.boolean().label("Featured"),
+    rating: Joi.number().min(0).max(10).label("Rating"),
+    createdAt: Joi.date().label("Date"),
+    company: Joi.string()
+      .valid("ikea", "liddy", "caressa", "marcos")
+      .label("Company"),
+  });
+
+  return querySchema.validate(query, {
     errors: { wrap: { label: false } },
   });
 };
