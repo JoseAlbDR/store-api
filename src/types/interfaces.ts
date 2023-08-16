@@ -9,10 +9,16 @@ export interface IProduct {
   featured?: boolean;
 }
 
+export type ProductName = {
+  // name?: string | { $regex: string; $options: string };
+  $regex: string;
+  $options: string;
+};
+
 export interface IProductQuery {
   rating?: number;
   createdAt?: Date;
-  name?: string;
+  name?: string | ProductName;
   price?: number;
   company?: ICompany;
   featured?: boolean;
