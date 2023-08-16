@@ -9,7 +9,7 @@ const errorHandlerMiddleware = (
   console.log(err);
   return res
     .status(500)
-    .json({ msg: "Something went wrong, please try again" });
+    .json({ msg: "Something went wrong, please try again", err });
 };
 
 export default errorHandlerMiddleware;
