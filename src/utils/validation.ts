@@ -36,11 +36,14 @@ export const validateProductQuery = (query: unknown) => {
     rating: Joi.number().min(0).max(10).label("Rating"),
     createdAt: Joi.date().label("Date"),
     company: Joi.string()
-      .valid("ikea", "liddy", "caressa", "marcos")
+      // .valid("ikea", "liddy", "caressa", "marcos")
       .label("Company"),
   });
 
   return querySchema.validate(query, {
     errors: { wrap: { label: false } },
+    messages: {
+      "object.unknown": "Unknown parameter: {#key}",
+    },
   });
 };
