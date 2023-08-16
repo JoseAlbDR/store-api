@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from "express";
 import produtsController from "../controllers/products";
+
 const router = express.Router();
 
 router.route("/").get(produtsController.getAllProducts);
