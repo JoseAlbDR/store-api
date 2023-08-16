@@ -9,4 +9,13 @@ export interface IProduct {
   featured?: boolean;
 }
 
+export interface IProductQuery {
+  rating?: number;
+  createdAt?: Date;
+  name?: string;
+  price?: number;
+  company?: ICompany;
+  featured?: boolean;
+}
+
 export type NoDateIProduct = Omit<IProduct, "createdAt">;
