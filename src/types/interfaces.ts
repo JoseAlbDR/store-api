@@ -22,6 +22,7 @@ export interface IProductQuery {
   price?: number;
   company?: ICompany;
   featured?: boolean;
+  sort?: string;
 }
 
 export type NoDateIProduct = Omit<IProduct, "createdAt">;
