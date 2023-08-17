@@ -5,9 +5,15 @@ import notFoundMiddleware from "./middleware/not-found";
 import errorMiddleware from "./middleware/error-handler";
 import productsRouter from "./routes/products";
 import validateQuery from "./middleware/joi-validation";
+import cors from "cors";
 
 const app = express();
 const port = +process.env.PORT || 3000;
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // routes
 app.get("/", (_req, res) => {
