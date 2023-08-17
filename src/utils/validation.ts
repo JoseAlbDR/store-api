@@ -38,6 +38,7 @@ export const validateProductQuery = (query: unknown) => {
     company: Joi.string()
       // .valid("ikea", "liddy", "caressa", "marcos")
       .label("Company"),
+    sort: Joi.string(),
   });
 
   return querySchema.validate(query, {
