@@ -12,9 +12,9 @@ const getAllProductsStatic = async (_req: Request, res: Response) => {
 };
 
 const getAllProducts = async (req: Request, res: Response) => {
-  if (req.productQuery.name) {
+  if (req.productQuery.name && typeof req.productQuery.name === "string") {
     req.productQuery.name = {
-      $regex: req.productQuery.name as string,
+      $regex: req.productQuery.name,
       $options: "i",
     };
   }
