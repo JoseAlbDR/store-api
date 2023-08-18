@@ -1,4 +1,4 @@
-export type ICompany = "marcos" | "liddy" | "ikea" | "caressa";
+export type ICompany = "marcos" | "liddy" | "ikea" | "caressa" | "all" | "";
 
 export interface IProduct {
   rating?: number;
@@ -23,6 +23,7 @@ export interface IProductQuery {
   company?: ICompany;
   featured?: boolean;
   sort?: string;
+  fields?: string;
 }
 
 export type NoDateIProduct = Omit<IProduct, "createdAt">;
