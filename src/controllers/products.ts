@@ -22,13 +22,18 @@ const getAllProducts = async (req: Request, res: Response) => {
     queryObject.name = req.productQuery.name;
   }
 
-  if (
-    req.productQuery.featured &&
-    typeof req.productQuery.featured === "boolean"
-  ) {
+  if (typeof req.productQuery.featured === "boolean") {
     queryObject.featured = req.productQuery.featured;
   }
 
+  if (
+    req.productQuery.company &&
+    typeof req.productQuery.company === "string"
+  ) {
+    queryObject.company = req.productQuery.company;
+  }
+
+  // console.log(queryObject);
   let result = Product.find(queryObject);
 
   if (req.productQuery.sort && typeof req.productQuery.sort === "string") {
@@ -39,6 +44,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     result = result.sort("createdAt");
   }
 
+  // console.log(result);
   const products = await result;
 
   return res.status(200).json({ nbHits: products.length, products });
