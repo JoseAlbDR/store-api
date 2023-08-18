@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/require-await */
 import { Request, Response } from "express";
 import { Product } from "../models/product";
 import { IProductQuery } from "../types/interfaces";
-// import { IProduct } from "../types/interfaces";
 
 const getAllProductsStatic = async (_req: Request, res: Response) => {
-  const result = Product.find({}).sort("name");
+  const result = Product.find({}).select("name price");
   console.log(result);
   const products = await result;
   res.status(200).json({ nbHits: products.length, products });
@@ -28,12 +26,12 @@ const getAllProducts = async (req: Request, res: Response) => {
 
   if (
     req.productQuery.company &&
-    typeof req.productQuery.company === "string"
+    typeof req.productQuery.company === "string" &&
+    req.productQuery.company !== "all"
   ) {
     queryObject.company = req.productQuery.company;
   }
 
-  // console.log(queryObject);
   let result = Product.find(queryObject);
 
   if (req.productQuery.sort && typeof req.productQuery.sort === "string") {
@@ -44,6 +42,10 @@ const getAllProducts = async (req: Request, res: Response) => {
     result = result.sort("createdAt");
   }
 
+  if (req.productQuery.fields && typeof req.productQuery.fields === "string") {
+    const fieldsList = req.productQuery.fields.split(",").join(" ");
+    result = result.select(fieldsList);
+  }
   // console.log(result);
   const products = await result;
 
