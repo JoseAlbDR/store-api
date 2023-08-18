@@ -1,15 +1,6 @@
 import Joi from "joi";
 import { IProduct, IProductQuery } from "../types/interfaces";
 
-// export const validateCompany = (company: unknown) => {
-//   const companySchema = Joi.string<ICompany>().valid(
-//     "ikea",
-//     "liddy",
-//     "caressa",
-//     "marcos"
-//   );
-// };
-
 export const validateProductData = (product: unknown) => {
   const productSchema = Joi.object<IProduct>({
     name: Joi.string().required().label("Name"),
@@ -28,6 +19,39 @@ export const validateProductData = (product: unknown) => {
   });
 };
 
+const allowedFields = ["name", "price", "featured", "rating", "company"];
+const allowedSort = [
+  "name",
+  "price",
+  "featured",
+  "rating",
+  "company",
+  "createdAt",
+  "-name",
+  "-price",
+  "-featured",
+  "-rating",
+  "-company",
+  "-createdAt",
+];
+
+const customValidation = (
+  value: string,
+  helpers: Joi.CustomHelpers<unknown>,
+  allowed: string[]
+): string | Joi.ErrorReport => {
+  const valuesArray = value.split(",");
+  const invalidValues: string[] = valuesArray.filter(
+    (field) => !allowed.includes(field)
+  );
+
+  if (invalidValues.length === 0) {
+    return value;
+  } else {
+    return helpers.error("any.invalid", { invalidValues });
+  }
+};
+
 export const validateProductQuery = (query: unknown) => {
   const querySchema = Joi.object<IProductQuery>({
     name: Joi.string().label("Name"),
@@ -35,16 +59,20 @@ export const validateProductQuery = (query: unknown) => {
     featured: Joi.boolean().label("Featured"),
     rating: Joi.number().min(0).max(10).label("Rating"),
     createdAt: Joi.date().label("Date"),
-    company: Joi.string()
-      // .valid("ikea", "liddy", "caressa", "marcos")
-      .label("Company"),
-    sort: Joi.string(),
+    company: Joi.string().label("Company"),
+    sort: Joi.string().custom((value: string, helpers) =>
+      customValidation(value, helpers, allowedFields)
+    ),
+    fields: Joi.string().custom((value: string, helpers) =>
+      customValidation(value, helpers, allowedSort)
+    ),
   });
 
   return querySchema.validate(query, {
     errors: { wrap: { label: false } },
     messages: {
       "object.unknown": "Unknown parameter: {#key}",
+      "any.invalid": "Not Allowed Values: {#invalidValues}.",
     },
   });
 };
