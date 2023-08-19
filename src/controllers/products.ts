@@ -3,7 +3,7 @@ import { Product } from "../models/product";
 import { IProductQuery } from "../types/interfaces";
 
 const getAllProductsStatic = async (_req: Request, res: Response) => {
-  const result = Product.find({}).select("name price");
+  const result = Product.find({}).sort("name").select("name price");
   console.log(result);
   const products = await result;
   res.status(200).json({ nbHits: products.length, products });
@@ -47,6 +47,14 @@ const getAllProducts = async (req: Request, res: Response) => {
     result = result.select(fieldsList);
   }
   // console.log(result);
+
+  if (req.productQuery.page && req.productQuery.limit) {
+    const page = req.productQuery.page;
+    const limit = req.productQuery.limit;
+    const skip = (page - 1) * limit;
+    result = result.skip(skip).limit(limit);
+  }
+
   const products = await result;
 
   return res.status(200).json({ nbHits: products.length, products });
