@@ -25,6 +25,7 @@ export interface IProductQuery {
   sort?: string;
   fields?: string;
   page?: number;
+  limit?: number;
 }
 
 export type NoDateIProduct = Omit<IProduct, "createdAt">;
