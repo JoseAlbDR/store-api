@@ -40,6 +40,7 @@ const customValidation = (
   helpers: Joi.CustomHelpers<unknown>,
   allowed: string[]
 ): string | Joi.ErrorReport => {
+  console.log(allowed);
   const valuesArray = value.split(",");
   const invalidValues: string[] = valuesArray.filter(
     (field) => !allowed.includes(field)
@@ -61,10 +62,10 @@ export const validateProductQuery = (query: unknown) => {
     createdAt: Joi.date().label("Date"),
     company: Joi.string().label("Company"),
     sort: Joi.string().custom((value: string, helpers) =>
-      customValidation(value, helpers, allowedFields)
+      customValidation(value, helpers, allowedSort)
     ),
     fields: Joi.string().custom((value: string, helpers) =>
-      customValidation(value, helpers, allowedSort)
+      customValidation(value, helpers, allowedFields)
     ),
   });
 
