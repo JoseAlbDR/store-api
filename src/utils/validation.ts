@@ -71,7 +71,7 @@ export const validateProductQuery = (query: unknown) => {
         customValidation(value, helpers, allowedFields)
       )
       .label("Fields"),
-    page: Joi.number().min(1).label("Page"),
+    page: Joi.number().min(1).default(1).label("Page"),
   });
 
   return querySchema.validate(query, {
