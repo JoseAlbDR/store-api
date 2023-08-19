@@ -3,7 +3,7 @@ import { Product } from "../models/product";
 import { IProductQuery } from "../types/interfaces";
 
 const getAllProductsStatic = async (_req: Request, res: Response) => {
-  const result = Product.find({}).sort("name").select("name price");
+  const result = Product.find({ price: { $gt: 30 } }).sort("price");
   console.log(result);
   const products = await result;
   res.status(200).json({ nbHits: products.length, products });
@@ -19,6 +19,37 @@ const getAllProducts = async (req: Request, res: Response) => {
     };
     queryObject.name = req.productQuery.name;
   }
+
+  if (
+    req.productQuery.numericFilters &&
+    typeof req.productQuery.numericFilters === "string"
+  ) {
+    const numericFilters: string = req.productQuery.numericFilters;
+    const operatorMap: { [key: string]: string } = {
+      ">": "$gt",
+      ">=": "$gte",
+      "=": "$eq",
+      "<": "$lt",
+      "<=": "$lte",
+    };
+
+    const regEx = /\b(<|>|<=|>=|=)\b/g;
+
+    const filters: string | string[] = numericFilters.replace(
+      regEx,
+      (match) => `-${operatorMap[match]}-`
+    );
+
+    const options = ["price", "rating"];
+    filters.split(",").forEach((item) => {
+      const [field, operator, value] = item.split("-");
+      if (options.includes(field)) {
+        queryObject[field] = { [operator]: +value };
+      }
+    });
+  }
+
+  // console.log(queryObject);
 
   if (typeof req.productQuery.featured === "boolean") {
     queryObject.featured = req.productQuery.featured;
@@ -39,7 +70,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     const sortList = sort.split(",").join(" ");
     result = result.sort(sortList);
   } else {
-    result = result.sort("createdAt");
+    result = result.sort("name");
   }
 
   if (req.productQuery.fields && typeof req.productQuery.fields === "string") {
