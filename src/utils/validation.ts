@@ -61,12 +61,17 @@ export const validateProductQuery = (query: unknown) => {
     rating: Joi.number().min(0).max(10).label("Rating"),
     createdAt: Joi.date().label("Date"),
     company: Joi.string().label("Company"),
-    sort: Joi.string().custom((value: string, helpers) =>
-      customValidation(value, helpers, allowedSort)
-    ),
-    fields: Joi.string().custom((value: string, helpers) =>
-      customValidation(value, helpers, allowedFields)
-    ),
+    sort: Joi.string()
+      .custom((value: string, helpers) =>
+        customValidation(value, helpers, allowedSort)
+      )
+      .label("SortBy"),
+    fields: Joi.string()
+      .custom((value: string, helpers) =>
+        customValidation(value, helpers, allowedFields)
+      )
+      .label("Fields"),
+    page: Joi.number().min(1).label("Page"),
   });
 
   return querySchema.validate(query, {
