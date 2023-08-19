@@ -24,6 +24,7 @@ export interface IProductQuery {
   featured?: boolean;
   sort?: string;
   fields?: string;
+  page?: number;
 }
 
 export type NoDateIProduct = Omit<IProduct, "createdAt">;
