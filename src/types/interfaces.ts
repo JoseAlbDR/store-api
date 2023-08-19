@@ -26,6 +26,14 @@ export interface IProductQuery {
   fields?: string;
   page?: number;
   limit?: number;
+  [key: string]:
+    | number
+    | string
+    | Date
+    | ProductName
+    | boolean
+    | undefined
+    | { [key: string]: number };
 }
 
 export type NoDateIProduct = Omit<IProduct, "createdAt">;
