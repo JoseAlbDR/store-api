@@ -72,6 +72,7 @@ export const validateProductQuery = (query: unknown) => {
       )
       .label("Fields"),
     page: Joi.number().min(1).default(1).label("Page"),
+    limit: Joi.number().min(0).default(10).label("Limit"),
   });
 
   return querySchema.validate(query, {
