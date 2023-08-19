@@ -19,6 +19,8 @@ export const validateProductData = (product: unknown) => {
   });
 };
 
+const validOperators = [">", ">=", "=", "<", "<="];
+const validProperties = ["rating", "price"];
 const allowedFields = ["name", "price", "featured", "rating", "company"];
 const allowedSort = [
   "name",
@@ -40,7 +42,6 @@ const customValidation = (
   helpers: Joi.CustomHelpers<unknown>,
   allowed: string[]
 ): string | Joi.ErrorReport => {
-  console.log(allowed);
   const valuesArray = value.split(",");
   const invalidValues: string[] = valuesArray.filter(
     (field) => !allowed.includes(field)
@@ -71,6 +72,15 @@ export const validateProductQuery = (query: unknown) => {
         customValidation(value, helpers, allowedFields)
       )
       .label("Fields"),
+    numericFilters: Joi.string()
+      .regex(
+        new RegExp(
+          `^((${validProperties.join("|")})(${validOperators.join(
+            "|"
+          )})\\d+(,|$))+`
+        )
+      )
+      .label("Numeric Filters"),
     page: Joi.number().min(1).default(1).label("Page"),
     limit: Joi.number().min(0).default(10).label("Limit"),
   });
@@ -80,6 +90,7 @@ export const validateProductQuery = (query: unknown) => {
     messages: {
       "object.unknown": "Unknown parameter: {#key}",
       "any.invalid": "Not Allowed Values: {#invalidValues}.",
+      "string.pattern.base": "Invalid syntax for numeric condition: {#value}",
     },
   });
 };
