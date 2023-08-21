@@ -68,6 +68,54 @@ Retrieve products with names containing "chair":
 
 ```GET /api/v1/products?name=chair```
 
+### Filter Products by Price or/and rating
+
+Retrieve products with prices greater than $50:
+
+```GET /api/v1/products?numericFilters=price>50```
+
+Retrieve products with rating lesser than 4.5:
+
+```GET /api/v1/products?numericFilters=rating<4.5```
+
+Retrieve products with prices greater than $50 and rating lesser than 4.5:
+
+```GET /api/v1/products?numericFilters=price>50,rating<4.5```
+
+### Filter Products by Featured Status
+
+Retrieve featured products:
+
+```GET /api/v1/products?featured=true```
+
+### Filter Products by Company
+
+Retrieve products from the company "ikea":
+
+```GET /api/v1/products?company=ikea```
+
+### Sort Products
+
+Sort products by price in ascending order:
+
+```GET /api/v1/products?sort=price```
+
+Sort products by price in descending order:
+
+```GET /api/v1/products?sort=-price```
+
+### Select Specific Fields
+
+Retrieve products with only name and price fields:
+
+```GET /api/v1/products?fields=name,price```
+
+### Pagination
+
+Retrieve the second page of products with 10 items per page:
+
+```GET /api/v1/products?page=2&limit=10```
+
 ### `/api/v1/products/static`
 
 Endpoint for fetching products with a static filter and sorting.
