@@ -60,6 +60,14 @@ Endpoint for querying products with various filters, sorting, and pagination opt
 - `page`: Specify the page number for pagination.
 - `limit`: Specify the number of items per page.
 
+## Usage Examples
+
+### Filter Products by Name
+
+Retrieve products with names containing "chair":
+
+```GET /api/v1/products?name=chair```
+
 ### `/api/v1/products/static`
 
 Endpoint for fetching products with a static filter and sorting.
