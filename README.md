@@ -116,6 +116,12 @@ Retrieve the second page of products with 10 items per page:
 
 ```GET /api/v1/products?page=2&limit=10```
 
+### Chain filters, sort and pagination
+
+You can chain any of this filters, sort and pagination like:
+
+```GET /api/v1/products?name=chair&numericFilters=price>50,rating<4.5&featured=true&company=ikea&sort=-price&fields=name,price&page=2&limit=10 ```
+
 ### `/api/v1/products/static`
 
 Endpoint for fetching products with a static filter and sorting.
