@@ -75,7 +75,7 @@ const getAllProducts = async (req: Request, res: Response) => {
 
   if (req.productQuery.fields && typeof req.productQuery.fields === "string") {
     const fieldsList = req.productQuery.fields.split(",").join(" ");
-    result = result.select(fieldsList);
+    result = result.select(fieldsList)!;
   }
   // console.log(result);
 

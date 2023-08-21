@@ -11,7 +11,7 @@ const app = express();
 const port = +process.env.PORT || 3000;
 app.use(
   cors({
-    origin: "*",
+    origin: ["https://storefront.jadero.dev", "http://localhost:5173"],
   })
 );
 
